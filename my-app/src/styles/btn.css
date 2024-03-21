@@ -1,0 +1,18 @@
+.sign-btn{
+    width: 100px;
+    height: 50px;
+    font-size: large;
+    font-family: var(--font-mono);
+    align-items: center;
+    justify-content: center;
+    display: flex;
+}
+
+@media screen and (max-width: 450px) {
+    .sign-btn {
+      width: 40px; 
+      height: 50px;
+    }
+  }
+  
+ 

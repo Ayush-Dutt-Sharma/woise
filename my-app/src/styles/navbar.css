@@ -1,0 +1,11 @@
+.logo-title {
+    width: 100%;
+    height: 100%;
+    /* padding: 1rem; */
+    font-size: large;
+    /* background-color: rgba(var(--callout-rgb), 0.5); */
+    /* border: 1px solid rgba(var(--callout-border-rgb), 0.3); */
+    /* border-radius: var(--border-radius); */
+    font-family: var(--font-mono);
+  }
+  

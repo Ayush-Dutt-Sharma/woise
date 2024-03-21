@@ -1,0 +1,18 @@
+version: '3'
+services: 
+  web:
+    restart: always
+    build: 
+      context: .
+      dockerfile: Dockerfile.dev
+    volumes:
+      - '.:/app'
+  nginx:
+    depends_on:
+      - web
+    restart: always
+    build:
+      dockerfile: Dockerfile.dev
+      context: ./nginx
+    ports:
+      - "3000:80"
