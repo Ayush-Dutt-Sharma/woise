@@ -1,27 +1,22 @@
 name: woise
 on:
   push:
-    branches: [main,master]
+    branches: ["main","master"]
+  pull_request:
+    branches: [ "main" ,"master"]
 jobs:
   build:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [20.x]
-    env:
-      SSH_KEY: ${{secrets.SSH_KEY}}
     steps:
-      - uses: actions/checkout@master
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v2
-        with:
-          node-version: ${{ matrix.node-version }}
-          cache: "npm"
-      - run: npm i
-      - run: npm run build
-      - run: mkdir ~/.ssh
-      - run: echo "$SSH_KEY" >> ~/.ssh/github-action
-      - run: chmod 400 ~/.ssh/github-action
-      - run: echo -e "Host vps\n\tUser root\n\tHostname 11.000.000.111\n\tIdentityFile ~/.ssh/github-action\n\tStrictHostKeyChecking No" >> ~/.ssh/config
-      - run: rsync -re ssh ./.next/ vps:/home/root/app-name/.next
-      - run: ssh vps "pm2 restart app-name"
+       - uses: actions/checkout@v3
+       - name: Docker login
+         env:
+            DOCKER_USER: ${{secrets.DOCKER_USER}}
+            DOCKER_PASS: ${{secrets.DOCKER_PASS}}
+         run: |
+          docker login -u $DOCKER_USER -p $DOCKER_PASS
+       - name: Build Image
+         run: docker build . --file Dockerfile --tag woise:$(date +%s)
+       - name: Push Dokceer
+         run: docker push ${{secrets.DOCKER_USER}}/woise
+   
