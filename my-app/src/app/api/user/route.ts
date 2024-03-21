@@ -5,7 +5,7 @@ import { getServerSession } from "next-auth/next";
 import { options } from "@/app/api/auth/[...nextauth]/options";
 import { rateLimiter } from "@/utils/rateLimit";
 
-export async function GET(req: Response) {
+export async function GET(req: Request) {
   const session = await getServerSession(options);
   if (session && session.user && session.user.email) {
     const { success } = await rateLimiter.limit(session.user.email);

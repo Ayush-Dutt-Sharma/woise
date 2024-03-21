@@ -34,7 +34,7 @@ async function getDuration(body: Body) {
   }
 }
 
-export async function POST(req: Response) {
+export async function POST(req: Request) {
   const session = await getServerSession(options);
   if (session && session.user && session.user.email) {
     const { success } = await rateLimiter.limit(session.user.email);

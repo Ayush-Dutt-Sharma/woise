@@ -22,7 +22,6 @@ const initailModal = {
   isError: "",
 };
 const MAX_VIDEO_TIME = 3;
-const BASE_URL = "http://localhost:3000/";
 function Home() {
   const [url, setURL] = useState("");
   const [startTime, setStartTime] = useState<Time>({ minutes: 0 });
@@ -71,7 +70,7 @@ function Home() {
       return { ...p, isLoading: true, showModal: true };
     });
     try {
-      let res = await fetch(`${BASE_URL}api/videoDetails`, {
+      let res = await fetch(`/api/videoDetails`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -114,7 +113,7 @@ function Home() {
       return { ...p, isLoading: true, showModal: true };
     });
     try {
-      let res = await fetch(`${BASE_URL}api/voiceChanger`, {
+      let res = await fetch(`/api/voiceChanger`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
