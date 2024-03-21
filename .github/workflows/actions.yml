@@ -1,22 +1,32 @@
 name: woise
 on:
   push:
-    branches: ["main","master"]
+    branches: ["main", "master"]
   pull_request:
-    branches: [ "main" ,"master"]
+    branches: ["main", "master", "develop"] # Adjust according to your branching strategy
+
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-       - uses: actions/checkout@v3
-       - name: Docker login
-         env:
-            DOCKER_USER: ${{secrets.DOCKER_USER}}
-            DOCKER_PASS: ${{secrets.DOCKER_PASS}}
-         run: |
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Docker login
+        env:
+          DOCKER_USER: ${{secrets.DOCKER_USER}}
+          DOCKER_PASS: ${{secrets.DOCKER_PASS}}
+        run: |
           docker login -u $DOCKER_USER -p $DOCKER_PASS
-       - name: Build Image
-         run: docker build . --file Dockerfile --tag woise:$(date +%s)
-       - name: Push Dokceer
-         run: docker push ${{secrets.DOCKER_USER}}/woise
-   
+
+      - name: Build woise image
+        run: docker build ./my-app --file Dockerfile --tag woise:latest
+
+      - name: Push woise Docker
+        run: docker push ${{secrets.DOCKER_USER}}/woise:latest
+
+      - name: Build nginx Image
+        run: docker build ./nginx --file Dockerfile --tag woise-nginx:latest
+
+      - name: Push nginx Docker
+        run: docker push ${{secrets.DOCKER_USER}}/woise-nginx:latest
