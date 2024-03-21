@@ -46,13 +46,13 @@ jobs:
           docker login -u $DOCKER_USER -p $DOCKER_PASS
 
       - name: Build woise image
-        run: docker build ./my-app --file ./my-app/Dockerfile --tag woise:latest
+        run: docker build ./my-app --file ./my-app/Dockerfile --tag ${{secrets.DOCKER_USER}}/woise:latest
 
       - name: Push woise Docker
         run: docker push ${{secrets.DOCKER_USER}}/woise:latest
 
       - name: Build nginx Image
-        run: docker build ./nginx --file ./nginx/Dockerfile --tag woise-nginx:latest
+        run: docker build ./nginx --file ./nginx/Dockerfile --tag ${{secrets.DOCKER_USER}}/woise-nginx:latest
 
       - name: Push nginx Docker
         run: docker push ${{secrets.DOCKER_USER}}/woise-nginx:latest
