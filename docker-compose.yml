@@ -1,18 +1,18 @@
 version: '3'
-services: 
+
+services:
   web:
-    restart: always
-    build: 
-      context: .
-      dockerfile: Dockerfile.dev
-    volumes:
-      - '.:/app'
+    image: ayushduttsharma/woise
+    hostname: web
+    mem_limit: 128m
+
   nginx:
-    depends_on:
-      - web
-    restart: always
-    build:
-      dockerfile: Dockerfile.dev
-      context: ./nginx
+    image: ayushduttsharma/woise-nginx
+    hostname: nginx
     ports:
+      - "80:80"
+      - "443:443"
       - "3000:80"
+    links:
+      - web
+    mem_limit: 128m

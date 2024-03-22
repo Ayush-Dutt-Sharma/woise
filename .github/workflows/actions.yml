@@ -56,5 +56,19 @@ jobs:
 
       - name: Push nginx Docker
         run: docker push ${{secrets.DOCKER_USER}}/woise-nginx:latest
+      - name: Generate deployment package
+        run: zip -r deploy.zip . -x '*.git*'
+ 
+      - name: Deploy to EB
+        uses: einaregilsson/beanstalk-deploy@v18
+        with:
+          aws_access_key: ${{ secrets.AWS_ACCESS_KEY }}
+          aws_secret_key: ${{ secrets.AWS_SECRET_KEY }}
+          application_name: woise
+          environment_name: Woise-env
+          existing_bucket_name: elasticbeanstalk-ap-south-1-463915576752
+          region: us-east-1
+          version_label: ${{ github.sha }}
+          deployment_package: deploy.zip
 
        
