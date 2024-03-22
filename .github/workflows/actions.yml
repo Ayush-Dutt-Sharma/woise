@@ -67,7 +67,7 @@ jobs:
           application_name: woise
           environment_name: Woise-env
           existing_bucket_name: elasticbeanstalk-ap-south-1-463915576752
-          region: us-east-1
+          region: ap-south-1
           version_label: ${{ github.sha }}
           deployment_package: deploy.zip
 
