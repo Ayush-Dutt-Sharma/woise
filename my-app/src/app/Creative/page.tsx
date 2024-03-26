@@ -296,19 +296,6 @@ const [data,setData] = React.useState<Covers[]>([])
     <ClientOnly>
       <Modal showModal={showModal} isLoading={isLoading} isError={isError} />
 
-      <div className="m-5"> 
-          <h2
-            
-            style={{
-              fontFamily: "var(--font-mono)",
-              fontWeight: "bold",
-              fontSize: "20px",
-              padding: "1.5rem",
-            }}
-          >
-            Note: Every AI Cover gets deleted after One day.
-          </h2>
-        </div>
       <div className="w-full">
       <Table
         aria-label="Example table with custom cells, pagination and sorting"
