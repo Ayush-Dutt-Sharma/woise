@@ -228,7 +228,7 @@ function Home() {
           {isVisible && totalMin && (
             <div
               style={{ fontFamily: "var(--font-mono)", padding: "1.5rem" }}
-              className="text-white"
+              className="text-white bg-black bg-grid-white/[0.2]"
             >
               <div className="flex justify-center items-center">
                 <label>Audio start Time (minutes):</label>

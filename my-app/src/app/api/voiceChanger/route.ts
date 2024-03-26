@@ -187,7 +187,7 @@ async function processingSong(body: Body, session: Session, user: UserToken) {
         status = await checkStatus(res.id);
         if (
           ["COMPLETED", "FAILED"].includes(status.status) ||
-          counter === 9 ||
+          counter === 12 ||
           !["",undefined].includes(status.error)
         ) {
           console.log("status:    ----------   ", status,counter);
