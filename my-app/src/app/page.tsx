@@ -154,14 +154,16 @@ function Home() {
   {/* <NextUIProvider> */}
     <ClientOnly>
       <Modal showModal={showModal} isLoading={isLoading} isError={isError} />
+      <div className="h-screen w-screen bg-black  bg-grid-white/[0.2]  ">
+      {/* <div className="absolute pointer-events-none inset-0 flex items-center justify-center bg-black [mask-image:radial-gradient(ellipse_at_center,transparent_60%,black)]"></div> */}
       <div style={{fontFamily:'var(--font-mono)'}} className="flex items-center justify-center flex-col m-10 text-white">
         <p className="text-7xl m-5">create your AI Covers</p>
         <p className="text-xl text-[#ACE2E1]">convert any youtube video into your favorite artist voice</p>
       </div>
 
-      <div className="m-5"> 
+      <div className="m-5 text-white"> 
           <h2
-            className="h2-title"
+            
             style={{
               fontFamily: "var(--font-mono)",
               fontWeight: "bold",
@@ -176,7 +178,7 @@ function Home() {
               fontFamily: "var(--font-mono)",
               fontWeight: "",
               fontSize: "20px",
-              padding: "3rem",
+              padding: "35px",
               listStyleType: "square",
             }}
           >
@@ -194,8 +196,9 @@ function Home() {
           </ul>
         </div>
         
-      <div className="m-10">
-        <BackgroundGradient className="rounded-[22px] max-h-24 p-4 sm:p-6 lg:p-8 bg-white dark:bg-zinc-900">
+      <div className="p-10 bg-black bg-grid-white/[0.2]">
+     
+        <BackgroundGradient className="rounded-[22px] max-h-24 p-4 sm:p-6 lg:p-8 bg-zinc-900">
           {" "}
           <input
             className={styles.youtubeInput}
@@ -207,8 +210,9 @@ function Home() {
             }}
           />
         </BackgroundGradient>
+      
       </div>
-      <div className="flex justify-center items-center ">
+      <div className="flex justify-center items-center bg-black bg-grid-white/[0.2]">
         <button onClick={handleVideoDetails}>
           <div>
             <button className="inline-flex h-12 animate-shimmer items-center justify-center rounded-md border border-slate-800 bg-[linear-gradient(110deg,#000103,45%,#1e2631,55%,#000103)] bg-[length:200%_100%] px-6 font-medium text-slate-400 transition-colors focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-50">
@@ -266,13 +270,13 @@ function Home() {
           </div>
         </div>
       )}
-      <div className="h-screen w-screen dark:bg-black bg-white  dark:bg-grid-white/[0.2] bg-grid-black/[0.2] ">
+      <div className=" w-screen bg-black  bg-grid-white/[0.2] ">
         {/* Radial gradient for the container to give a faded look */}
         {/* <div className="absolute pointer-events-none inset-0 flex items-center justify-center dark:bg-black bg-white [mask-image:radial-gradient(ellipse_at_center,transparent_20%,black)]"></div> */}
 
         {isVisible && totalMin && (
           <>
-            <div className="border border-black/[0.2] dark:border-white/[1] flex flex-col max-w-sm mx-auto justify-center items-center w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/5 h-1/4 rounded-lg">
+            <div className="border border-white/[1] flex flex-col max-w-sm mx-auto justify-center items-center w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/5 h-1/4 rounded-lg">
               <button
                 className="relative flex flex-col max-w-sm mx-auto justify-center items-center w-full overflow-hidden rounded-lg p-[1px] focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-50"
                 onClick={handleVoiceChanger}
@@ -294,14 +298,17 @@ function Home() {
               alignItems: "center",
               xs: "flex",
               md: "none",
+              padding:'20px'
             },
           }}
         >
           <Coffee />
         </Box>
       </div>
+      </div>
       </ClientOnly>
       {/* </NextUIProvider> */}
+    
     </>
   );
 }

@@ -16,7 +16,7 @@ module.exports = {
     "./node_modules/@nextui-org/theme/dist/**/*.{js,ts,jsx,tsx}",
   ],
 
-  // darkMode: "class",
+  darkMode: "class",
   theme: {
     screens: {
       sm: { max: "450px" },
@@ -26,7 +26,7 @@ module.exports = {
       animation: {
         spotlight: "spotlight 2s ease .75s 1 forwards",
 
-        shimmer: "shimmer 2s linear infinite",
+        shimmer: "shimmer",
       },
       keyframes: {
         shimmer: {
