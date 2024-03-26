@@ -8,12 +8,7 @@ import { rateLimiter } from "@/utils/rateLimit";
 
 
 export async function GET(req: Request) {
-  const session = await getServerSession(options);
-  if (session && session.user && session.user.email) {
-    const { success } = await rateLimiter.limit(session.user.email);
-    if (!success) {
-      return NextResponse.json({ err: "TOO_MANY_REQUESTS" },{status:500});
-    }
+
     try {
       await connectMongoDB();
       const songs = await TodaySongs.find({})
@@ -36,7 +31,5 @@ export async function GET(req: Request) {
       console.log(error);
       return NextResponse.json({ err: "Something went wrong" },{status:500});
     }
-  } else {
-    return NextResponse.json({  err: "Please login" },{status: 500});
-  }
+   
 }

@@ -76,7 +76,7 @@ const [data,setData] = React.useState<Covers[]>([])
 
   
 
-  const pages = Math.ceil(data.length / rowsPerPage);
+  const pages = data.length>0 ? Math.ceil(data.length / rowsPerPage) : 1;
 
   const items = React.useMemo(() => {
     const start = (page - 1) * rowsPerPage;
@@ -170,8 +170,8 @@ const [data,setData] = React.useState<Covers[]>([])
                 </Button>
               </DropdownTrigger>
               <DropdownMenu classNames={{base:["bg-black"]}}>
-                <DropdownItem onClick={async()=>{await handleCopy(user['s3Link'])}}>Share</DropdownItem>
-                <DropdownItem onClick={()=>{handleDownload(user['s3Link'],user['videoTitle'],user['voice'])}}>Download</DropdownItem>
+                <DropdownItem onClick={async()=>{await handleCopy(user['s3Link'])}}><span className="text-white">Share</span></DropdownItem>
+                <DropdownItem onClick={()=>{handleDownload(user['s3Link'],user['videoTitle'],user['voice'])}}><span className="text-white">Download</span></DropdownItem>
               </DropdownMenu>
             </Dropdown>
           </div>
@@ -264,11 +264,32 @@ const [data,setData] = React.useState<Covers[]>([])
   }, [items.length, page, pages]);
 
   React.useEffect(() => {
+    setModal((p) => {
+      return { ...p, isLoading: true, showModal: true ,isError:''};
+    });
     fetch("api/creative")
       .then((res) => res.json())
       .then((data) => {
-        setData(data.covers)
-      });
+        if(data.covers.length<=0){
+          setModal((p) => {
+            return { ...p, isLoading: false, showModal: true ,isError:data.err};
+          });
+          startTimer(2000)
+        }else{
+          setData(data.covers)
+          setModal((p) => {
+            return { ...p, isLoading: false, showModal: true ,isError:'Done'};
+          });
+          startTimer(1000)
+
+        }
+        
+      }).catch(err=>{
+        setModal((p) => {
+          return { ...p, isLoading: false, showModal: true ,isError:'Something went wrong'};
+        });
+        startTimer(2000)
+      })
   }, []);
 
   return (
