@@ -124,13 +124,13 @@ const [data,setData] = React.useState<Covers[]>([])
   const renderCell = React.useCallback((user:Covers, columnKey:any) => {
     //@ts-ignore
     const cellValue = user[columnKey];
-    console.log('cellvalue',{user,columnKey})
     switch (columnKey) {
       case "creator":
         return (
           <User
             avatarProps={{ radius: "lg", src: user.image }}
             name={user.name}
+            classNames={{base:['text-white']}}
           >
             {user.name}
           </User>
@@ -139,7 +139,7 @@ const [data,setData] = React.useState<Covers[]>([])
         return (
             <User
             //@ts-ignore
-            avatarProps={{ radius: "lg", src: voices[user.voice]['src'] }}  name={voices[user.voice]['name']}>{voices[user.voice]['name']}
+            avatarProps={{ radius: "lg", src: voices[user.voice]['src'] }} classNames={{base:['text-white']}} name={voices[user.voice]['name']}>{voices[user.voice]['name']}
           </User>
         );
       case "video":
@@ -267,7 +267,11 @@ const [data,setData] = React.useState<Covers[]>([])
     setModal((p) => {
       return { ...p, isLoading: true, showModal: true ,isError:''};
     });
-    fetch("api/creative")
+    fetch("api/creative",{
+      method:'POST',
+      body:JSON.stringify({num:Math.random()}),
+      cache: 'no-store' 
+    })
       .then((res) => res.json())
       .then((data) => {
         if(data.covers.length<=0){

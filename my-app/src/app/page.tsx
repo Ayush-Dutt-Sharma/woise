@@ -97,7 +97,6 @@ function Home() {
         });
         startTimer(2000);
       }
-      console.log("the voice details", data);
     } catch (err: any) {
       console.log(err);
       setModal((p) => {
@@ -131,7 +130,6 @@ function Home() {
           return { ...p, isLoading: false, isError: data.msz };
         });
         startTimer(2000, () => {
-          console.log("Trying to push---- --- --- -");
           push("/Creative");
         });
       } else {
@@ -140,7 +138,6 @@ function Home() {
         });
         startTimer(2000);
       }
-      console.log("the voice changer", data);
     } catch (err) {
       console.log(err);
       setModal((p) => {

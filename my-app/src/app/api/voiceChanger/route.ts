@@ -51,7 +51,7 @@ interface Status {
 
 const MAX_VIDEO_LIMIT = 3;
 const parentDirectory = path.join(__dirname, "..", "..", "..", "..", "..");
-async function processingSong(body: Body, session: Session, user: UserToken) {
+async function processingSong(body: Body, session: Session, user: UserToken,token:number) {
   if (session && session.user && session.user.email) {
     if (
       !Number(body.endTime.minutes) ||
@@ -187,7 +187,7 @@ async function processingSong(body: Body, session: Session, user: UserToken) {
         status = await checkStatus(res.id);
         if (
           ["COMPLETED", "FAILED"].includes(status.status) ||
-          counter === 12 ||
+          counter === 18 ||
           !["",undefined].includes(status.error)
         ) {
           console.log("status:    ----------   ", status,counter);
@@ -221,7 +221,7 @@ async function processingSong(body: Body, session: Session, user: UserToken) {
         s3Link: finalRet,
         ytThumb: s3Upload.videoDetails.thumbnails[0].url,
       });
-      await handleToken(user.email, Number(process.env.DAILY_TOKEN) - 1);
+      ![...[process.env.ADMIN]].includes(session.user.email) && await handleToken(user.email, token - 1);
     }
     await ActiveJobs.deleteOne({ jobID: res.id, email: session.user.email });
 
@@ -229,7 +229,7 @@ async function processingSong(body: Body, session: Session, user: UserToken) {
       return NextResponse.json(
         {
           url: finalRet,
-          token: Number(process.env.DAILY_TOKEN) - 1,
+          token: token - 1,
           msz: "Thanks for your patience",
         },
         { status: 200 }
@@ -385,7 +385,7 @@ export async function POST(req: Request, res: Response) {
         Number(process.env.ONE_DAY_SECONDS) <
         (new Date().getTime() - new Date(user.lastUsed).getTime()) / 1000;
       if (isOneDayOld) {
-        return await processingSong(body, session, user);
+        return await processingSong(body, session, user,Number(process.env.DAILY_TOKEN));
       } else {
         if (token <= 0) {
           return NextResponse.json(
@@ -395,7 +395,7 @@ export async function POST(req: Request, res: Response) {
             { status: 500 }
           );
         } else if (token) {
-          return await processingSong(body, session, user);
+          return await processingSong(body, session, user,token);
         }
       }
     } catch (error) {

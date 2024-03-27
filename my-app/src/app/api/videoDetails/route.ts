@@ -13,7 +13,6 @@ interface Body {
 
 async function getDuration(body: Body) {
   const videoId: any = getYouTubeVideoId(body?.url);
-  console.log("videoID", videoId);
   if (videoId) {
     const duration = await getYTLength(videoId);
     if (duration) {
@@ -58,7 +57,7 @@ export async function POST(req: Request) {
       const isOneDayOld =
         Number(process.env.ONE_DAY_SECONDS) <
         (new Date().getTime() - new Date(user.lastUsed).getTime()) / 1000;
-      if (isOneDayOld) {
+      if (isOneDayOld && [...[process.env.ADMIN]].includes(session.user.email)) {
         return await getDuration(body);
       } else {
         if (token <= 0) {
