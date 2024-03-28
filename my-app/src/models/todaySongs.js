@@ -40,7 +40,8 @@ const TodaySongsSchema = new Schema(
       { timestamps: true }
 
 )
-TodaySongsSchema.index({ createdAt: 1 }, { expireAfterSeconds: 2592000 });
+TodaySongsSchema.index({ createdAt: 1 }, { expireAfterSeconds: 2592000, name: "createdAt_ttl"  });
+TodaySongsSchema.dropIndex("createdAt_ttl");
 
 const TodaySongs = models.TodaySongs || mongoose.model('TodaySongs',TodaySongsSchema)
 export default TodaySongs
