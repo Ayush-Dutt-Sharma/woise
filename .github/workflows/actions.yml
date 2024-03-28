@@ -1,74 +1,74 @@
-name: woise
-on:
-  push:
-    branches: ["main", "master"]
-  pull_request:
-    branches: ["main", "master", "develop"] # Adjust according to your branching strategy
+# name: woise
+# on:
+#   push:
+#     branches: ["main", "master"]
+#   pull_request:
+#     branches: ["main", "master", "develop"] # Adjust according to your branching strategy
 
-jobs:
-  build:
-    runs-on: ubuntu-latest
+# jobs:
+#   build:
+#     runs-on: ubuntu-latest
     
 
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-      - name: set env
-        run: |
-             cd my-app
-             touch .env.local
-             echo  NEXTAUTH_SECRET = ${{ secrets.NEXTAUTH_SECRET }} >> .env.local 
-             echo  GOOGLE_CLIENT_ID= ${{ secrets.GOOGLE_CLIENT_ID }} >> .env.local 
-             echo  GOOGLE_CLIENT_SECRET = ${{ secrets.GOOGLE_CLIENT_SECRET }} >> .env.local
-             echo NEXTAUTH_URL = ${{ secrets.NEXTAUTH_URL }} >> .env.local
-             echo  MONGODB_URI = ${{ secrets.MONGODB_URI }} >> .env.local
-             echo  YOUTUBE_API_KEY = ${{ secrets.YOUTUBE_API_KEY }} >> .env.local
-             echo  DAILY_TOKEN = ${{ secrets.DAILY_TOKEN }} >> .env.local
-             echo  ONE_DAY_SECONDS = ${{ secrets.ONE_DAY_SECONDS }} >> .env.local
-             echo  UPSTASH_REDIS_REST_URL = ${{ secrets.UPSTASH_REDIS_REST_URL }} >> .env.local
-             echo  UPSTASH_REDIS_REST_TOKEN = ${{ secrets.UPSTASH_REDIS_REST_TOKEN }} >> .env.local
-             echo  EXECTION_TIMEOUT ${{ secrets.EXECTION_TIMEOUT }} >> .env.local
-             echo  TIME_TO_LIVE = ${{ secrets.TIME_TO_LIVE }} >> .env.local
-             echo  RUNPOD_SERVERLESS_ID = ${{ secrets.RUNPOD_SERVERLESS_ID }} >> .env.local
-             echo  RUNPOD_API_KEY = ${{ secrets.RUNPOD_API_KEY }} >> .env.local
-             echo  TOTAL_WORKERS = ${{ secrets.TOTAL_WORKERS }} >> .env.local
-             echo  MAX_VIDEO_TIME = ${{ secrets.MAX_VIDEO_TIME }} >> .env.local
-             echo  AWS_BUCKET_AREA = ${{ secrets.AWS_BUCKET_AREA }} >> .env.local
-             echo  AWS_BUCKET_SECRET_ACCESS_KEY = ${{ secrets.AWS_BUCKET_SECRET_ACCESS_KEY }} >> .env.local
-             echo  AWS_BUCKET_ACCESS_KEY_ID = ${{ secrets.AWS_BUCKET_ACCESS_KEY_ID }} >> .env.local
-             echo  AWS_BUCKET_ENDPOINT_URL = ${{ secrets.AWS_BUCKET_ENDPOINT_URL }} >> .env.local
-             echo  AWS_BUCKET_NAME = ${{ secrets.AWS_BUCKET_NAME }} >> .env.local 
-      - name: Docker login
-        env:
-          DOCKER_USER: ${{secrets.DOCKER_USER}}
-          DOCKER_PASS: ${{secrets.DOCKER_PASS}}
-        run: |
-          docker login -u $DOCKER_USER -p $DOCKER_PASS
+#     steps:
+#       - name: Checkout code
+#         uses: actions/checkout@v3
+#       - name: set env
+#         run: |
+#              cd my-app
+#              touch .env.local
+#              echo  NEXTAUTH_SECRET = ${{ secrets.NEXTAUTH_SECRET }} >> .env.local 
+#              echo  GOOGLE_CLIENT_ID= ${{ secrets.GOOGLE_CLIENT_ID }} >> .env.local 
+#              echo  GOOGLE_CLIENT_SECRET = ${{ secrets.GOOGLE_CLIENT_SECRET }} >> .env.local
+#              echo NEXTAUTH_URL = ${{ secrets.NEXTAUTH_URL }} >> .env.local
+#              echo  MONGODB_URI = ${{ secrets.MONGODB_URI }} >> .env.local
+#              echo  YOUTUBE_API_KEY = ${{ secrets.YOUTUBE_API_KEY }} >> .env.local
+#              echo  DAILY_TOKEN = ${{ secrets.DAILY_TOKEN }} >> .env.local
+#              echo  ONE_DAY_SECONDS = ${{ secrets.ONE_DAY_SECONDS }} >> .env.local
+#              echo  UPSTASH_REDIS_REST_URL = ${{ secrets.UPSTASH_REDIS_REST_URL }} >> .env.local
+#              echo  UPSTASH_REDIS_REST_TOKEN = ${{ secrets.UPSTASH_REDIS_REST_TOKEN }} >> .env.local
+#              echo  EXECTION_TIMEOUT ${{ secrets.EXECTION_TIMEOUT }} >> .env.local
+#              echo  TIME_TO_LIVE = ${{ secrets.TIME_TO_LIVE }} >> .env.local
+#              echo  RUNPOD_SERVERLESS_ID = ${{ secrets.RUNPOD_SERVERLESS_ID }} >> .env.local
+#              echo  RUNPOD_API_KEY = ${{ secrets.RUNPOD_API_KEY }} >> .env.local
+#              echo  TOTAL_WORKERS = ${{ secrets.TOTAL_WORKERS }} >> .env.local
+#              echo  MAX_VIDEO_TIME = ${{ secrets.MAX_VIDEO_TIME }} >> .env.local
+#              echo  AWS_BUCKET_AREA = ${{ secrets.AWS_BUCKET_AREA }} >> .env.local
+#              echo  AWS_BUCKET_SECRET_ACCESS_KEY = ${{ secrets.AWS_BUCKET_SECRET_ACCESS_KEY }} >> .env.local
+#              echo  AWS_BUCKET_ACCESS_KEY_ID = ${{ secrets.AWS_BUCKET_ACCESS_KEY_ID }} >> .env.local
+#              echo  AWS_BUCKET_ENDPOINT_URL = ${{ secrets.AWS_BUCKET_ENDPOINT_URL }} >> .env.local
+#              echo  AWS_BUCKET_NAME = ${{ secrets.AWS_BUCKET_NAME }} >> .env.local 
+#       - name: Docker login
+#         env:
+#           DOCKER_USER: ${{secrets.DOCKER_USER}}
+#           DOCKER_PASS: ${{secrets.DOCKER_PASS}}
+#         run: |
+#           docker login -u $DOCKER_USER -p $DOCKER_PASS
 
-      - name: Build woise image
-        run: docker build ./my-app --file ./my-app/Dockerfile --tag ${{secrets.DOCKER_USER}}/woise:latest
+#       - name: Build woise image
+#         run: docker build ./my-app --file ./my-app/Dockerfile --tag ${{secrets.DOCKER_USER}}/woise:latest
 
-      - name: Push woise Docker
-        run: docker push ${{secrets.DOCKER_USER}}/woise:latest
+#       - name: Push woise Docker
+#         run: docker push ${{secrets.DOCKER_USER}}/woise:latest
 
-      - name: Build nginx Image
-        run: docker build ./nginx --file ./nginx/Dockerfile --tag ${{secrets.DOCKER_USER}}/woise-nginx:latest
+#       - name: Build nginx Image
+#         run: docker build ./nginx --file ./nginx/Dockerfile --tag ${{secrets.DOCKER_USER}}/woise-nginx:latest
 
-      - name: Push nginx Docker
-        run: docker push ${{secrets.DOCKER_USER}}/woise-nginx:latest
-      - name: Generate deployment package
-        run: zip -r deploy.zip . -x '*.git*'
+#       - name: Push nginx Docker
+#         run: docker push ${{secrets.DOCKER_USER}}/woise-nginx:latest
+#       - name: Generate deployment package
+#         run: zip -r deploy.zip . -x '*.git*'
  
-      - name: Deploy to EB
-        uses: einaregilsson/beanstalk-deploy@v18
-        with:
-          aws_access_key: ${{ secrets.AWS_ACCESS_KEY }}
-          aws_secret_key: ${{ secrets.AWS_SECRET_KEY }}
-          application_name: woise
-          environment_name: Woise-env
-          existing_bucket_name: elasticbeanstalk-ap-south-1-463915576752
-          region: ap-south-1
-          version_label: ${{ github.sha }}
-          deployment_package: deploy.zip
+#       - name: Deploy to EB
+#         uses: einaregilsson/beanstalk-deploy@v18
+#         with:
+#           aws_access_key: ${{ secrets.AWS_ACCESS_KEY }}
+#           aws_secret_key: ${{ secrets.AWS_SECRET_KEY }}
+#           application_name: woise
+#           environment_name: Woise-env
+#           existing_bucket_name: elasticbeanstalk-ap-south-1-463915576752
+#           region: ap-south-1
+#           version_label: ${{ github.sha }}
+#           deployment_package: deploy.zip
 
        
