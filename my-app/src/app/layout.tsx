@@ -41,7 +41,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark">
       <body className={inter.className}>
-        <div className="h-screen w-screen bg-black  bg-grid-white/[0.2]  ">
+        <div className="h-screen w-screen bg-black    ">
           {/* Radial gradient for the container to give a faded look */}
           <div className="absolute pointer-events-none inset-0 flex items-center justify-center bg-black [mask-image:radial-gradient(ellipse_at_center,transparent_60%,black)]"></div>
 
