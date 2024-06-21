@@ -151,6 +151,7 @@ function Home() {
       {/* <NextUIProvider> */}
       <ClientOnly>
         <Modal showModal={showModal} isLoading={isLoading} isError={isError} />
+        <div style={{ fontFamily: "var(--font-mono)" }} className="m-20 text-[200px]">woise.co</div>
         <div className="h-screen w-screen bg-black  bg-grid-white/[0.2]  ">
           {/* <div className="absolute pointer-events-none inset-0 flex items-center justify-center bg-black [mask-image:radial-gradient(ellipse_at_center,transparent_60%,black)]"></div> */}
           <div
